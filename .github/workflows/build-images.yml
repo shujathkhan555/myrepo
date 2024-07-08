@@ -33,22 +33,5 @@ jobs:
       - name: Build & Tag Image
         run: |
           docker build \
-            --build-arg HOME_LOCATION=${{ vars.HOME_LOCATION }} \
-            --build-arg API_LOCATION=${{ vars.API_LOCATION }} \
-            --build-arg FORUM_LOCATION=${{ vars.FORUM_LOCATION }} \
-            --build-arg NEWS_LOCATION=${{ vars.NEWS_LOCATION }} \
-            --build-arg CLIENT_LOCALE=${{ vars.CLIENT_LOCALE }} \
-            --build-arg CURRICULUM_LOCALE=${{ vars.CURRICULUM_LOCALE }} \
-            --build-arg SHOW_LOCALE_DROPDOWN_MENU=${{ vars.SHOW_LOCALE_DROPDOWN_MENU }} \
-            --build-arg ALGOLIA_APP_ID=${{ vars.ALGOLIA_APP_ID }} \
-            --build-arg ALGOLIA_API_KEY=${{ vars.ALGOLIA_API_KEY }} \
-            --build-arg STRIPE_PUBLIC_KEY=${{ vars.STRIPE_PUBLIC_KEY }} \
-            --build-arg PAYPAL_CLIENT_ID=${{ vars.PAYPAL_CLIENT_ID }} \
-            --build-arg PATREON_CLIENT_ID=${{ vars.PATREON_CLIENT_ID }} \
-            --build-arg DEPLOYMENT_ENV=${{ vars.DEPLOYMENT_ENV }} \
-            --build-arg SHOW_UPCOMING_CHANGES=${{ vars.SHOW_UPCOMING_CHANGES }} \
-            --build-arg SHOW_NEW_CURRICULUM=${{ vars.SHOW_NEW_CURRICULUM }} \
-            --build-arg GROWTHBOOK_URI=${{ vars.GROWTHBOOK_URI }} \
-            --build-arg FREECODECAMP_NODE_ENV=${{ vars.FREECODECAMP_NODE_ENV }} \
             --tag registry-name-goes-here/repo-name-goes-here/${{ matrix.site_tlds }}/learn-${{ matrix.apps }}:$tagname \
             --file docker/${{ matrix.apps }}/Dockerfile .
