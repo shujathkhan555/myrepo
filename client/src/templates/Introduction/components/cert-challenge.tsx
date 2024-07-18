@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { Button } from '@freecodecamp/ui';
 
 import {
   certSlugTypeMap,
@@ -20,6 +19,7 @@ import {
   type CertTitle,
   liveCerts
 } from '../../../../config/cert-and-project-map';
+import { ButtonLink } from '../../../components/helpers';
 
 interface CertChallengeProps {
   // TODO: create enum/reuse SuperBlocks enum somehow
@@ -98,16 +98,15 @@ const CertChallenge = ({
   return (
     <div>
       {isSignedIn && (
-        <Button
+        <ButtonLink
           block={true}
-          variant='primary'
           href={isCertified ? certLocation : `/settings#cert-${certSlug}`}
         >
           {isCertified && userLoaded
             ? t('buttons.show-cert')
             : t('buttons.go-to-settings')}{' '}
           <span className='sr-only'>{title}</span>
-        </Button>
+        </ButtonLink>
       )}
     </div>
   );
