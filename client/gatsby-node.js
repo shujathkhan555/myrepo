@@ -321,6 +321,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       challenge: Challenge
     }
     type Challenge {
+      blockType: String
       challengeFiles: [FileContents]
       notes: String
       url: String
