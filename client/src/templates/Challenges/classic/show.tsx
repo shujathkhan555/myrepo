@@ -452,7 +452,6 @@ function ShowClassic({
             guideUrl={getGuideUrl({ forumTopicId, title })}
             hasEditableBoundaries={hasEditableBoundaries}
             hasPreview={showPreview}
-            hasDemo={hasDemo}
             instructions={renderInstructionsPanel({
               showToolPanel: false,
               hasDemo
