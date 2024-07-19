@@ -188,6 +188,7 @@ function ShowClassic({
         fields: { tests, blockName },
         challengeType,
         hasEditableBoundaries,
+        hasDemo,
         superBlock,
         helpCategory,
         forumTopicId,
@@ -369,9 +370,11 @@ function ShowClassic({
   };
 
   const renderInstructionsPanel = ({
-    showToolPanel
+    showToolPanel,
+    hasDemo
   }: {
     showToolPanel: boolean;
+    hasDemo: boolean | null;
   }) => {
     return (
       <SidePanel
@@ -397,6 +400,7 @@ function ShowClassic({
         showToolPanel={showToolPanel}
         superBlock={superBlock}
         videoUrl={videoUrl}
+        hasDemo={hasDemo}
       />
     );
   };
@@ -448,8 +452,10 @@ function ShowClassic({
             guideUrl={getGuideUrl({ forumTopicId, title })}
             hasEditableBoundaries={hasEditableBoundaries}
             hasPreview={showPreview}
+            hasDemo={hasDemo}
             instructions={renderInstructionsPanel({
-              showToolPanel: false
+              showToolPanel: false,
+              hasDemo
             })}
             notes={notes}
             onPreviewResize={onPreviewResize}
@@ -479,9 +485,11 @@ function ShowClassic({
               isUsingKeyboardInTablist: usingKeyboardInTablist
             })}
             hasEditableBoundaries={hasEditableBoundaries}
+            hasDemo={hasDemo}
             hasPreview={showPreview}
             instructions={renderInstructionsPanel({
-              showToolPanel: true
+              showToolPanel: true,
+              hasDemo
             })}
             isFirstStep={isFirstStep}
             layoutState={layout}
@@ -532,6 +540,7 @@ export const query = graphql`
         description
         id
         hasEditableBoundaries
+        hasDemo
         instructions
         notes
         challengeType
