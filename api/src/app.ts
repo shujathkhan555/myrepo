@@ -48,6 +48,10 @@ import {
   SENTRY_DSN
 } from './utils/env';
 import { isObjectID } from './utils/validation';
+import {
+  examEnvironmentOpenRoutes,
+  examEnvironmentValidatedTokenRoutes
+} from './routes/exam-environment';
 
 export type FastifyInstanceWithTypeProvider = FastifyInstance<
   RawServerDefault,
@@ -218,6 +222,13 @@ export const build = async (
     done();
   });
 
+  void fastify.register(function (fastify, _opts, done) {
+    fastify.addHook('onRequest', fastify.authorizeExamEnvironmentToken);
+
+    void fastify.register(examEnvironmentValidatedTokenRoutes);
+    done();
+  });
+
   // Routes not requiring authentication
   void fastify.register(mobileAuth0Routes);
   if (FCC_ENABLE_DEV_LOGIN_MODE) {
@@ -230,6 +241,7 @@ export const build = async (
   void fastify.register(deprecatedEndpoints);
   void fastify.register(statusRoute);
   void fastify.register(unsubscribeDeprecated);
+  void fastify.register(examEnvironmentOpenRoutes);
 
   return fastify;
 };
