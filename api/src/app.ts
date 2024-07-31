@@ -45,6 +45,7 @@ import {
   EMAIL_PROVIDER,
   FCC_ENABLE_DEV_LOGIN_MODE,
   FCC_ENABLE_SWAGGER_UI,
+  FREECODECAMP_NODE_ENV,
   SENTRY_DSN
 } from './utils/env';
 import { isObjectID } from './utils/validation';
@@ -222,12 +223,15 @@ export const build = async (
     done();
   });
 
-  void fastify.register(function (fastify, _opts, done) {
-    fastify.addHook('onRequest', fastify.authorizeExamEnvironmentToken);
+  if (FREECODECAMP_NODE_ENV !== 'production') {
+    void fastify.register(function (fastify, _opts, done) {
+      fastify.addHook('onRequest', fastify.authorizeExamEnvironmentToken);
 
-    void fastify.register(examEnvironmentValidatedTokenRoutes);
-    done();
-  });
+      void fastify.register(examEnvironmentValidatedTokenRoutes);
+      done();
+    });
+    void fastify.register(examEnvironmentOpenRoutes);
+  }
 
   // Routes not requiring authentication
   void fastify.register(mobileAuth0Routes);
@@ -241,7 +245,6 @@ export const build = async (
   void fastify.register(deprecatedEndpoints);
   void fastify.register(statusRoute);
   void fastify.register(unsubscribeDeprecated);
-  void fastify.register(examEnvironmentOpenRoutes);
 
   return fastify;
 };
