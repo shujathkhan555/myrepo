@@ -6,7 +6,7 @@ import { type user } from '@prisma/client';
 import { JWT_SECRET } from '../utils/env';
 import { type Token, isExpired } from '../utils/tokens';
 import { getRedirectParams } from '../utils/redirection';
-import { CODE, STATUS } from '../utils';
+import { CODE } from '../utils/new-exam';
 
 declare module 'fastify' {
   interface FastifyReply {
@@ -114,12 +114,11 @@ const codeFlowAuth: FastifyPluginCallback = (fastify, _options, done) => {
         req.headers;
 
       if (!encodedToken || typeof encodedToken !== 'string') {
+        void reply.code(400);
         return reply.send({
-          status: STATUS.ERROR,
-          message: {
-            code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
-            text: 'EXAM-ENVIRONMENT-AUTHORIZATION-TOKEN header is a required string.'
-          }
+          code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
+          message:
+            'EXAM-ENVIRONMENT-AUTHORIZATION-TOKEN header is a required string.'
         });
       }
 
@@ -130,11 +129,8 @@ const codeFlowAuth: FastifyPluginCallback = (fastify, _options, done) => {
       } catch (e) {
         void reply.code(403);
         return reply.send({
-          message: {
-            code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
-            text: JSON.stringify(e)
-          },
-          status: STATUS.ERROR
+          code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
+          message: JSON.stringify(e)
         });
       }
 
@@ -143,11 +139,8 @@ const codeFlowAuth: FastifyPluginCallback = (fastify, _options, done) => {
       if (typeof payload !== 'object' || payload === null) {
         void reply.code(500);
         return reply.send({
-          status: STATUS.ERROR,
-          message: {
-            code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
-            text: 'Unreachable. Decoded token has been verified.'
-          }
+          code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
+          message: 'Unreachable. Decoded token has been verified.'
         });
       }
 
@@ -157,11 +150,8 @@ const codeFlowAuth: FastifyPluginCallback = (fastify, _options, done) => {
 
       if (typeof examEnvironmentAuthorizationToken !== 'string') {
         return reply.send({
-          status: STATUS.ERROR,
-          message: {
-            code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
-            text: 'EXAM-ENVIRONMENT-AUTHORIZATION-TOKEN is not valid.'
-          }
+          code: CODE.EINVAL_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN,
+          message: 'EXAM-ENVIRONMENT-AUTHORIZATION-TOKEN is not valid.'
         });
       }
 
@@ -175,7 +165,7 @@ const codeFlowAuth: FastifyPluginCallback = (fastify, _options, done) => {
       if (!token) {
         return {
           message: 'Token not found',
-          status: STATUS.ERROR
+          code: CODE.ENOENT_EXAM_ENVIRONMENT_AUTHORIZATION_TOKEN
         };
       }
 
