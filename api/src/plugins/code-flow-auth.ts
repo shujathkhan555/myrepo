@@ -6,7 +6,7 @@ import { type user } from '@prisma/client';
 import { JWT_SECRET } from '../utils/env';
 import { type Token, isExpired } from '../utils/tokens';
 import { getRedirectParams } from '../utils/redirection';
-import { CODE } from '../utils/new-exam';
+import { CODE } from '../exam-environment/utils/exam';
 
 declare module 'fastify' {
   interface FastifyReply {
